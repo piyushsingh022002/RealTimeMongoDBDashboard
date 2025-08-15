@@ -1,6 +1,5 @@
 using Application.Interfaces;
 using Microsoft.AspNetCore.SignalR;
-using Api.Hubs; // careful: referenced from API assembly name
 
 namespace Infrastructure.Services;
 
