@@ -1,50 +1,28 @@
-using System.ComponentModel.DataAnnotations;
-using Application.Interfaces;
-using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RealTimeMongoDashboard.Application.Interfaces;
+using RealTimeMongoDashboard.Domain;
 
-namespace Api.Controllers;
+namespace RealTimeMongoDashboard.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public sealed class InternalController : ControllerBase
 {
     private readonly INotifier _notifier;
-    private readonly string _internalKey;
+    public InternalController(INotifier notifier) => _notifier = notifier;
 
-    public InternalController(INotifier notifier, IConfiguration cfg)
-    {
-        _notifier = notifier;
-        _internalKey = Environment.GetEnvironmentVariable("INTERNAL_KEY")
-                      ?? cfg["INTERNAL_KEY"]
-                      ?? string.Empty;
-    }
-
-    public sealed record BroadcastRequest([
-        Required] string Collection,
-        [Required] string OperationType,
-        string? Id,
-        object? Document,
-        DateTime? TimestampUtc
-    );
-
+    // Watcher + manual test
     [HttpPost("broadcast")]
-    public async Task<IActionResult> Broadcast([FromBody] BroadcastRequest req)
+    [Authorize(Roles = "internal")]
+    public async Task<IActionResult> Broadcast([FromBody] ChangeMessage message, CancellationToken ct)
     {
-        var headerKey = Request.Headers["X-Internal-Key"].ToString();
-        if (string.IsNullOrEmpty(_internalKey) || headerKey != _internalKey)
-            return Unauthorized();
-
-        var msg = new ChangeMessage
-        {
-            Collection = req.Collection,
-            OperationType = req.OperationType,
-            Id = req.Id,
-            Document = req.Document,
-            TimestampUtc = req.TimestampUtc ?? DateTime.UtcNow
-        };
-
-        await _notifier.BroadcastAsync("DataChanged", msg, HttpContext.RequestAborted);
+        await _notifier.BroadcastAsync(message, ct);
         return Accepted();
     }
+
+    // Quick manual test from Swagger: requires internal token
+    [HttpPost("ping")]
+    [Authorize(Roles = "internal")]
+    public IActionResult Ping() => Ok(new { ok = true, ts = DateTime.UtcNow });
 }
