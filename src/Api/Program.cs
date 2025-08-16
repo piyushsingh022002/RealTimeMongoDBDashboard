@@ -2,12 +2,18 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Application.Interfaces;
+using API.Services;
+using API.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]);
+
+builder.Services.AddScoped<INotifier, Notifier>();
+builder.Services.AddSignalR();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -65,6 +71,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapHub<NotificationsHub>("/notificationsHub");
+app.MapHub<NotificationsHub>("/hubs/notifications");
 
 app.Run();

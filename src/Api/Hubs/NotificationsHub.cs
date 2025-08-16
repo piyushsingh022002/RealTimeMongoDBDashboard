@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
 
-namespace Api.Hubs
+namespace API.Hubs
 {
     public class NotificationsHub : Hub
     {
