@@ -1,45 +1,34 @@
 services:
   - type: web
-    name: rtmd-api
+    name: realtime-mongo-api
     env: docker
     plan: free
-    dockerfilePath: RealTimeMongoDashboard.API/Dockerfile
+    rootDir: src/API
+    dockerfilePath: ./src/API/Dockerfile
+    autoDeploy: true
     envVars:
-      - key: ASPNETCORE_ENVIRONMENT
-        value: Production
-      - key: Mongo__ConnectionString
+      - key: MongoDb__ConnectionString
         sync: false
-      - key: Mongo__Database
-        value: rtmd
-      - key: Jwt__Issuer
-        value: rtmd-api
-      - key: Jwt__Audience
-        value: rtmd-clients
       - key: Jwt__Key
         sync: false
-      - key: Jwt__ExpiryMinutes
-        value: "120"
-      - key: Jwt__Internal__ApiKey
+      - key: Jwt__Issuer
         sync: false
-    healthCheckPath: /swagger/index.html
+      - key: InternalAuth__Key
+        sync: false
+
   - type: worker
-    name: rtmd-watcher
+    name: realtime-mongo-watcher
     env: docker
     plan: free
-    dockerfilePath: RealTimeMongoDashboard.Watcher/Dockerfile
+    rootDir: src/Watcher
+    dockerfilePath: ./src/Watcher/Dockerfile
+    autoDeploy: true
     envVars:
-      - key: Mongo__ConnectionString
+      - key: MongoDb__ConnectionString
         sync: false
-      - key: Mongo__Database
-        value: rtmd
-      - key: Mongo__Collections__0
-        value: orders
-      - key: Mongo__Collections__1
-        value: users
-      - key: Mongo__Collections__2
-        value: metrics
-      - key: Api__BaseUrl
-        # e.g. https://rtmd-api.onrender.com
+      - key: Jwt__Key
         sync: false
-      - key: Api__InternalKey
+      - key: Jwt__Issuer
+        sync: false
+      - key: InternalAuth__Key
         sync: false

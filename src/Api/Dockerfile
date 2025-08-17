@@ -1,15 +1,20 @@
-# build
+# Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY . .
-RUN dotnet restore "RealTimeMongoDashboard.API/RealTimeMongoDashboard.API.csproj" --use-current-runtime
-RUN dotnet publish "RealTimeMongoDashboard.API/RealTimeMongoDashboard.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-# run
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+COPY ["API/Api.csproj", "API/"]
+COPY ["Application/Application.csproj", "Application/"]
+COPY ["Domain/Domain.csproj", "Domain/"]
+COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+
+RUN dotnet restore "API/Api.csproj"
+
+COPY . .
+WORKDIR "/src/API"
+RUN dotnet publish "Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
-ENV ASPNETCORE_URLS=http://+:8080
-EXPOSE 8080
-VOLUME ["/app/logs"]
-ENTRYPOINT ["dotnet", "RealTimeMongoDashboard.API.dll"]
+ENTRYPOINT ["dotnet", "Api.dll"]
