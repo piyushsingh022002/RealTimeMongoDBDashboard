@@ -1,12 +1,12 @@
-using Application.DTOs;
-using MongoDB.Bson;
+using RealTimeMongoDashboard.Application.DTOs;
 
-namespace Application.Interfaces;
+namespace RealTimeMongoDashboard.Application.Interfaces;
 
-public interface IDynamicCollectionService
+public interface ICollectionService
 {
-    Task<PagedResult<BsonDocument>> GetAllAsync(string collection, int page, int pageSize, CancellationToken ct);
-    Task<BsonDocument> InsertAsync(string collection, BsonDocument doc, CancellationToken ct);
-    Task<BsonDocument?> UpdateAsync(string collection, string id, BsonDocument patch, CancellationToken ct);
-    Task<bool> DeleteAsync(string collection, string id, CancellationToken ct);
+    Task<PagedResult<object>> GetPageAsync(string collection, int page, int pageSize, string? filterJson = null, string? sortJson = null, CancellationToken ct = default);
+    Task<object?> GetByIdAsync(string collection, string id, CancellationToken ct = default);
+    Task<string> InsertAsync(string collection, object document, CancellationToken ct = default);
+    Task<bool> UpdateAsync(string collection, string id, object document, CancellationToken ct = default);
+    Task<bool> DeleteAsync(string collection, string id, CancellationToken ct = default);
 }

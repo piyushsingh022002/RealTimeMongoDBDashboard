@@ -1,4 +1,4 @@
-namespace Domain.Models;
+namespace RealTimeMongoDashboard.Domain.Models;
 
 public sealed class ChangeMessage
 {

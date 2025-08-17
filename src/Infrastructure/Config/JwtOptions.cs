@@ -1,9 +1,11 @@
-namespace Infrastructure.Config;
+namespace RealTimeMongoDashboard.Infrastructure.Config;
 
 public sealed class JwtOptions
 {
-    public string Key { get; set; } = string.Empty; // symmetric key
-    public string Issuer { get; set; } = "rtmdash";
-    public string Audience { get; set; } = "rtmdash.clients";
-    public int ExpiryMinutes { get; set; } = 720; // 12h default
+    public string Issuer { get; init; } = default!;
+    public string Audience { get; init; } = default!;
+    public string Key { get; init; } = default!;
+    public int ExpiryMinutes { get; init; } = 60;
+    public InternalOptions Internal { get; init; } = new();
+    public sealed class InternalOptions { public string ApiKey { get; init; } = default!; }
 }

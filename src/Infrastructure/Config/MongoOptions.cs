@@ -1,4 +1,4 @@
-namespace Infrastructure.Config;
+namespace RealTimeMongoDashboard.Infrastructure.Config;
 
 public sealed class MongoOptions
 {

@@ -1,8 +1,8 @@
-using Infrastructure.Config;
+using RealTimeMongoDashboard.Infrastructure.Config;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace Infrastructure.Persistence;
+namespace RealTimeMongoDashboard.Infrastructure.Persistence;
 
 public sealed class MongoClientFactory
 {

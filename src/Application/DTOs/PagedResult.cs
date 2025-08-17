@@ -1,9 +1,9 @@
-namespace Application.DTOs;
+namespace RealTimeMongoDashboard.Application.DTOs;
 
 public sealed class PagedResult<T>
 {
-    public int Page { get; init; }
-    public int PageSize { get; init; }
-    public long Total { get; init; }
-    public IEnumerable<T> Items { get; init; } = Array.Empty<T>();
+    public required IReadOnlyList<T> Items { get; init; }
+    public required long Total { get; init; }
+    public required int Page { get; init; }
+    public required int PageSize { get; init; }
 }
