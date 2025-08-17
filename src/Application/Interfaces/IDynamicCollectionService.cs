@@ -1,3 +1,5 @@
+using RealTimeMongoDashboard.Application.DTOs;
+
 namespace RealTimeMongoDashboard.Application.Interfaces;
 
 public interface ICollectionService

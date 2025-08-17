@@ -1,4 +1,4 @@
-namespace RealTimeMongoDashboard.API.Config;
+namespace RealTimeMongoDashboard.Infrastructure.Config;
 
 public sealed class JwtOptions
 {

@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
-using RealTimeMongoDashboard.API.Config;
+using RealTimeMongoDashboard.API.Hubs;
 using RealTimeMongoDashboard.Application.Interfaces;
 using RealTimeMongoDashboard.Infrastructure.Services;
+using RealTimeMongoDashboard.Infrastructure.Config;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);

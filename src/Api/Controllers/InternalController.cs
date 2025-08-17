@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealTimeMongoDashboard.Application.Interfaces;
-using RealTimeMongoDashboard.Domain;
+using RealTimeMongoDashboard.Domain.Models;
 
 namespace RealTimeMongoDashboard.API.Controllers;
 

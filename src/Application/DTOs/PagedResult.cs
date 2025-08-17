@@ -1,4 +1,4 @@
-namespace Application.DTOs;
+namespace RealTimeMongoDashboard.Application.DTOs;
 
 public sealed class PagedResult<T>
 {

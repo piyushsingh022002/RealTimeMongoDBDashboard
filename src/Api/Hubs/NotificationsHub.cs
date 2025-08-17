@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
 
-namespace API.Hubs
+namespace RealTimeMongoDashboard.API.Hubs
 {
     public class NotificationsHub : Hub
     {

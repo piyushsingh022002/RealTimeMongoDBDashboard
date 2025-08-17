@@ -1,8 +1,9 @@
-using Application.Interfaces;
+using RealTimeMongoDashboard.Application.Interfaces;
 using Microsoft.AspNetCore.SignalR;
-using API.Hubs;
+using RealTimeMongoDashboard.API.Hubs;
+using RealTimeMongoDashboard.Domain.Models;
 
-namespace API.Services
+namespace RealTimeMongoDashboard.API.Services
 {
     public class Notifier : INotifier
     {
@@ -17,5 +18,10 @@ namespace API.Services
         {
             await _hubContext.Clients.All.SendAsync("ReceiveMessage", message);
         }
+
+        public async Task BroadcastAsync(ChangeMessage message, CancellationToken ct = default)
+    {
+        await _hubContext.Clients.All.SendAsync("change", message, ct);
+    }
     }
 }

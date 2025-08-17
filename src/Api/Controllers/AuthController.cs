@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using RealTimeMongoDashboard.API.Config;
+using RealTimeMongoDashboard.Infrastructure.Config;
 
 namespace RealTimeMongoDashboard.API.Controllers;
 

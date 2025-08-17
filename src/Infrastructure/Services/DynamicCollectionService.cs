@@ -1,7 +1,10 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 using RealTimeMongoDashboard.Application.Interfaces;
-using RealTimeMongoDashboard.Application.Models;
+using RealTimeMongoDashboard.Application.DTOs;
+using RealTimeMongoDashboard.Domain.Models;
+
+
 
 namespace RealTimeMongoDashboard.Infrastructure.Services;
 
@@ -79,7 +82,8 @@ public sealed class CollectionService : ICollectionService
     }
 
     private static BsonDocument ParseOrEmpty(string? json)
-        => string.IsNullOrWhiteSpace(json) ? Builders<BsonDocument>.Filter.Empty.Render(BsonDocumentSerializer.Instance, BsonSerializer.SerializerRegistry) : BsonDocument.Parse(json!);
+    => string.IsNullOrWhiteSpace(json) ? new BsonDocument() : BsonDocument.Parse(json!);
+
 
     private static FilterDefinition<BsonDocument> IdFilter(string id)
         => Builders<BsonDocument>.Filter.Eq("_id", ParseId(id));
