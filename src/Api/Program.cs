@@ -58,22 +58,38 @@ builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "RealTime MongoDB Dashboard API", Version = "v1" });
-    var scheme = new OpenApiSecurityScheme
+    c.SwaggerDoc("v1", new OpenApiInfo 
+    { 
+        Title = "RealTime MongoDB Dashboard API", 
+        Version = "v1" 
+    });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
+        Scheme = "Bearer",   // note: capital "B"
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "JWT Authorization header using the Bearer scheme."
-    };
-    c.AddSecurityDefinition("Bearer", scheme);
+        Description = "Enter 'Bearer {your JWT token}'"
+    });
+
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
-        { scheme, Array.Empty<string>() }
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
     });
 });
+
 
 var app = builder.Build();
 
