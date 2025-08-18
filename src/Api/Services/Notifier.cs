@@ -20,8 +20,9 @@ namespace RealTimeMongoDashboard.API.Services
         }
 
         public async Task BroadcastAsync(ChangeMessage message, CancellationToken ct = default)
-    {
-        await _hubContext.Clients.All.SendAsync("change", message, ct);
-    }
+        {
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", message, ct);
+        }
+    
     }
 }
