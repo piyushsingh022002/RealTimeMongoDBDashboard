@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using RealTimeMongoDashboard.API.Hubs;
+using RealTimeMongoDashboard.API.Services;
 using RealTimeMongoDashboard.Application.Interfaces;
 using RealTimeMongoDashboard.Infrastructure.Services;
 using RealTimeMongoDashboard.Infrastructure.Config;
@@ -53,6 +54,7 @@ builder.Services.AddAuthorization();
 // Controllers + SignalR
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
+builder.Services.AddScoped<INotifier, Notifier>();
 
 // Swagger + JWT
 builder.Services.AddEndpointsApiExplorer();
